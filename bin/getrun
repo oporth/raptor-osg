@@ -36,7 +36,19 @@ do
 echo '+++++++++++++++++'
 echo 'attempt '$i
 echo '+++++++++++++++++'
-rsync -avz --bwlimit=40000 --progress --files-from=datfiles1500-3000-stride3.txt eht:${path_from} ${path_to}
+rsync -avz --bwlimit=40000 --progress --files-from=bin/datfiles1500-3000-stride3.txt eht:${path_from} ${path_to}
 sleep 10
 done
 
+#also transfer Munit.tsv
+rsync -avz --bwlimit=40000 --progress eht:${path_from}/../Munit.tsv ${path_to}/../.
+
+#also compute the md5sum here
+fileout=${path_to}/../md5.tsv
+rm $fileout
+
+for file in $path_to/*.dat; do
+        mymd5=$(md5sum $file)
+        mymd5=${mymd5% *}
+	echo -e $(basename $file)' \t '$mymd5 >> $fileout
+done
