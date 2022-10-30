@@ -41,7 +41,12 @@ sleep 10
 done
 
 #also transfer Munit.tsv
-rsync -avz --bwlimit=40000 --progress eht:${path_from}/../Munit.tsv ${path_to}/../.
+rsync -avz --progress eht:${path_from}/../Munit.tsv ${path_to}/../.
+
+#also transfer grid_mks.in
+rsync -avz --progress eht:${path_from}/../grid_mks.in ${path_to}/../.
+
+
 
 #also compute the md5sum here
 fileout=${path_to}/../md5.tsv

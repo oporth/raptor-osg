@@ -93,5 +93,5 @@ echo "Parameter file"
 cat model.in
 echo
 echo "Calling RAPTOR"
-RAPTOR-POL-SFC model.in ${input} 0
+RAPTOR-POL-NOSFC model.in ${input} 0
 tofits model.in 0

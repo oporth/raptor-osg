@@ -19,7 +19,7 @@
 spin=$(pwd | rev | cut -d/ -f1 |rev)
 type=$(pwd | rev | cut -d/ -f2 |rev)
 
-r=/public/oporth/BHAC_GRMHD/$type/$spin
+r=/protected/$USER/BHAC_GRMHD/$type/$spin
 
 awk '{print $1","$2","$3}' "$r/Munit.tsv" | while read Rh_i_Munit;do
     for file in $r/output/data*.dat;do 
