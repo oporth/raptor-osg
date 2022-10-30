@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+#
+# Copyright 2022 Oliver Porth
+# Copyright 2022 University of Amsterdam
+# Based on ipole-osg by Chi-kwan Chan
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you
+# may not use this file except in compliance with the License.  You
+# may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.  See the License for the specific language governing
+# permissions and limitations under the License.
+
+# This is a wrapper script for running `raptor` on the Open Science
+# Grid with HTCondor.  Note that `ipole` accept more options via a
+# paramter file, compare to command line arguments.  Hence, this
+# wrapper takes command line arguments, turn them into a `raptor`
+# parameter file "model.in" through a template, and then run
+# `raptor model.in` to fully configure `raptor`.
+# Additionally, we need to select among the pre-compiled variants
+# since several important parameters are set at compile time. :-(
+
+function finish {
+  # Your cleanup code here
+  rm model.in
+#  mv output/img_data_0.h5 $PWD/.
+#  mv output/uniform_img_2.30e+11_0.dat $PWD/uniform.dat
+  mv fits/data0.fits $PWD/data.fits
+  echo "Science complete!"
+}
+trap finish EXIT
+
+
+if test $# -lt 2; then
+   cat <<EOF
+usage: $0 <input> <Tp/Te> <inclination> <M_unit>
+a wrapper to run \`raptor\` on the Open Science Grid with HTCondor
+EOF
+	exit 1
+fi
+
+#set -e
+
+echo 'all cmd parameters' $#
+
+input="$1"
+inmd5="$2"
+Rhigh="$3"
+inc="$4"
+Munit="$5"
+
+mymd5=$(md5sum "${input}" | cut -d' ' -f1)
+if [ x"$mymd5" == x"$inmd5" ]; then
+	>&2 echo "md5(${input}) == ${mymd5} == ${inmd5}"
+else
+	>&2 echo "WARNING: md5(${input}) == ${mymd5} != ${inmd5}"
+fi
+
+
+cat <<EOF | tee model.in
+MBH             (Msun)  4.14e6
+DISTANCE                (kpc) 8.127
+M_UNIT          (g)     ${Munit}
+R_LOW           (-)     1
+R_HIGH          (-)     ${Rhigh}
+INCLINATION     (deg)   ${inc}
+IMG_WIDTH       (pixels)        400
+IMG_HEIGHT      (pixels)        400
+CAM_SIZE_X      (Rg)            40
+CAM_SIZE_Y      (Rg)            40
+FREQS_PER_DEC   (-)             1
+FREQ_MIN        (Hz)            230.e9
+STEPSIZE        (-)             0.01
+MAX_LEVEL       (-)             1
+EOF
+
+
+printf "Start time: "; /bin/date
+printf "Job is running on node: "; /bin/hostname
+printf "Job running as user: "; /usr/bin/id
+printf "Job is running in directory: "; /bin/pwd
+printf "The command line arguments are: $@ "
+echo
+echo "Working hard..."
+ls -l $PWD
+echo 
+echo "Parameter file"
+cat model.in
+echo
+echo "Calling RAPTOR"
+RAPTOR-POL-SFC model.in ${input} 0
+tofits model.in 0

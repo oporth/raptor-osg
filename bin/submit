@@ -1,0 +1,56 @@
+#!/usr/bin/env condor_submit
+#
+# Copyright 2022 Oliver Porth
+# Copyright 2022 University of Amsterdam
+# Based on ipole-osg by Chi-kwan Chan
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you
+# may not use this file except in compliance with the License.  You
+# may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.  See the License for the specific language governing
+# permissions and limitations under the License.
+
+# This is a submission script for running `raptor` on the Open Science
+# Grid with HTCondor.  It takes care file transfer, resuming, and
+# renaming.  It uses the `wrapper` script in the same "bin/" directory
+# within the `raptor-osg` git repository.  It can be submitted
+# normally with condor_submit:
+#
+#     condor_submit submit
+#
+# or run as a command directly `bin/submit`.
+
++SingularityImage = "stash:///osgconnect/public/oporth/singularity/scirunner-v2p5.sif"
+
+executable = bin/wrapper
+arguments  = $Fnx(input) $(md5) $(Rhigh) $(inc) $(Munit)
+
+transfer_input_files   = $(input),$(grid)
+#transfer_output_remaps = "img_data_0.h5=out/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).h5"
+#transfer_output_remaps = "uniform.dat=out/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).dat"
+transfer_output_remaps = "data.fits=out/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).fits"
+ShouldTransferFiles = Yes
+WhenToTransferOutput = ON_EXIT
+
+output = log/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).out
+error  = log/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).err
+log    = log/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).log
+
+universe       = vanilla
+request_memory = 4 GB
+request_disk   = 2 GB
+request_cpus   = 8
+
+Requirements = HAS_SINGULARITY == TRUE
+
+on_exit_hold     = (ExitBySignal == True) || (ExitCode > 1)
+periodic_hold    = ((CurrentTime - EnteredCurrentStatus) > 28800) && (JobStatus == 2)
+periodic_release = ((CurrentTime - EnteredCurrentStatus) > 60)    && (NumJobStarts < 5)
+
+queue 1 input,md5,grid,snapshot,Rhigh,inc,Munit from bin/parget |
