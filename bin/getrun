@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#
+# Copyright 2022 Oliver Porth
+# Copyright 2022 University of Amsterdam
+# Based on ipole-osg by Chi-kwan Chan
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you
+# may not use this file except in compliance with the License.  You
+# may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.  See the License for the specific language governing
+# permissions and limitations under the License.
+
+spin=$(pwd | rev | cut -d/ -f1 |rev)
+type=$(pwd | rev | cut -d/ -f2 |rev)
+
+path_on_eht=/bd8/eht/BHAC_GRMHD/
+outfolder=output
+MADorSANE=$type
+spincode=$spin
+
+path_from=${path_on_eht}${MADorSANE}/${spincode}/${outfolder}
+path_to=/protected/$USER/BHAC_GRMHD/${MADorSANE}/${spincode}/${outfolder}
+echo 'remote path is: ' ${path_from}
+echo 'local path is:  ' ${path_to}
+
+mkdir -p ${path_to}
+
+for i in {1..100}
+do 
+echo '+++++++++++++++++'
+echo 'attempt '$i
+echo '+++++++++++++++++'
+rsync -avz --bwlimit=40000 --progress --files-from=datfiles1500-3000-stride3.txt eht:${path_from} ${path_to}
+sleep 10
+done
+
