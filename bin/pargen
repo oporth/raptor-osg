@@ -19,15 +19,15 @@
 spin=$(pwd | rev | cut -d/ -f1 |rev)
 type=$(pwd | rev | cut -d/ -f2 |rev)
 
-r=/protected/$USER/BHAC_GRMHD/$type/$spin
+r=/$USER/BHAC_GRMHD/$type/$spin
 
-awk '{print $1","$2","$3}' "$r/Munit.tsv" | while read Rh_i_Munit;do
-    for file in $r/output/data*.dat;do 
+awk '{print $1","$2","$3}' "/protected${r}/Munit.tsv" | while read Rh_i_Munit;do
+    for file in /protected/$r/output/data*.dat;do 
 
 	f=$(basename $file)
         s=${f:4:-4}
-        md5=$(awk '{if($1=="'${f}'") {print $2}}' "${r}/md5.tsv")
-	echo stash:///osgconnect${file},${md5},${r}/grid_mks.in,${s},${Rh_i_Munit}
+        md5=$(awk '{if($1=="'${f}'") {print $2}}' "/protected${r}/md5.tsv")
+	echo stash:///ospool/PROTECTED${r}/output/${f},${md5},/protected${r}/grid_mks.in,${s},${Rh_i_Munit}
 
     done
 done

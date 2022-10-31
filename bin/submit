@@ -26,14 +26,12 @@
 #
 # or run as a command directly `bin/submit`.
 
-+SingularityImage = "stash:///osgconnect/public/oporth/singularity/scirunner-v2p5.sif"
++SingularityImage = "stash:///ospool/PROTECTED/oliver.porth/singularity/scirunner-v2p5.sif"
 
 executable = bin/wrapper
 arguments  = $Fnx(input) $(md5) $(Rhigh) $(inc) $(Munit)
 
 transfer_input_files   = $(input),$(grid)
-#transfer_output_remaps = "img_data_0.h5=out/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).h5"
-#transfer_output_remaps = "uniform.dat=out/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).dat"
 transfer_output_remaps = "data.fits=out/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).fits"
 ShouldTransferFiles = Yes
 WhenToTransferOutput = ON_EXIT
@@ -46,8 +44,6 @@ universe       = vanilla
 request_memory = 4 GB
 request_disk   = 2 GB
 request_cpus   = 8
-
-Requirements = HAS_SINGULARITY == TRUE
 
 on_exit_hold     = (ExitBySignal == True) || (ExitCode > 1)
 periodic_hold    = ((CurrentTime - EnteredCurrentStatus) > 28800) && (JobStatus == 2)
