@@ -28,9 +28,6 @@
 function finish {
   # Your cleanup code here
   rm model.in
-#  mv output/img_data_0.h5 $PWD/.
-#  mv output/uniform_img_2.30e+11_0.dat $PWD/uniform.dat
-  mv fits/data0.fits $PWD/data.fits
   echo "Science complete!"
 }
 trap finish EXIT
@@ -53,6 +50,7 @@ inmd5="$2"
 Rhigh="$3"
 inc="$4"
 Munit="$5"
+s=${input:4:-4}
 
 mymd5=$(md5sum "${input}" | cut -d' ' -f1)
 if [ x"$mymd5" == x"$inmd5" ]; then
@@ -93,5 +91,17 @@ echo "Parameter file"
 cat model.in
 echo
 echo "Calling RAPTOR"
-RAPTOR-POL-NOSFC model.in ${input} 0
-tofits model.in 0
+
+RAPTOR-POL-SFC model.in ${input} $s
+tofits model.in $s
+overview model.in $s
+mv fits/data${s}.fits data.fits
+mv figures/img_${s}.png img.png
+mv output/spectrum_${s}_?????.dat spectrum.dat
+
+RAPTOR-POL-SFC-BFLIP model.in ${input} $s
+tofits model.in $s
+overview model.in $s
+mv fits/data${s}.fits data_Bflip.fits
+mv figures/img_${s}.png img_Bflip.png
+mv output/spectrum_${s}_?????.dat spectrum_Bflip.dat
