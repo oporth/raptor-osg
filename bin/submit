@@ -32,7 +32,7 @@ executable = bin/wrapper
 arguments  = $Fnx(input) $(md5) $(Rhigh) $(inc) $(Munit)
 
 transfer_input_files   = $(input),$(grid)
-transfer_output_remaps = "data.fits=fits/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).fits; data_Bflip.fits=fits/img_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.fits; img.png=png/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).png; img_Bflip.png=png/img_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.png; spectrum.dat=spectrum/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).dat; spectrum_Bflip.dat=spectrum/img_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.dat"
+transfer_output_remaps = "data.fits=fits/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).fits; data_Bflip.fits=fits/img_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.fits; img.png=png/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).png; img_Bflip.png=png/img_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.png; spectrum.dat=spectrum/spectrum_s$(snapshot)_Rh$(Rhigh)_i$(inc).dat; spectrum_Bflip.dat=spectrum/spectrum_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.dat"
 ShouldTransferFiles = Yes
 WhenToTransferOutput = ON_EXIT
 
