@@ -19,6 +19,8 @@
 spin=$(pwd | rev | cut -d/ -f1 |rev)
 type=$(pwd | rev | cut -d/ -f2 |rev)
 
-rsync -avz out/ eht:/bd4/eht/SgrA_Polarimetry_Raytracing/BHAC_RAPTOR/$type/$spin/fits
+rsync -avz fits/ eht:/bd4/eht/SgrA_Polarimetry_Raytracing/BHAC_RAPTOR/$type/$spin/fits
+rsync -avz --mkpath png/ eht:/bd4/eht/SgrA_Polarimetry_Raytracing/BHAC_RAPTOR/$type/$spin/png
+rsync -avz --mkpath spectrum/ eht:/bd4/eht/SgrA_Polarimetry_Raytracing/BHAC_RAPTOR/$type/$spin/spectrum
 
 echo Done putting data into BHAC_RAPTOR/$type/$spin/fits on eht server.
