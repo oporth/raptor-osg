@@ -92,14 +92,14 @@ cat model.in
 echo
 echo "Calling RAPTOR"
 
-RAPTOR-POL-SFC model.in ${input} $s
+RAPTOR-POL-NOSFC model.in ${input} $s
 tofits model.in $s
 overview model.in $s
 mv fits/data${s}.fits data.fits
 mv figures/img_${s}.png img.png
 mv output/spectrum_${s}_?????.dat spectrum.dat
 
-RAPTOR-POL-SFC-BFLIP model.in ${input} $s
+RAPTOR-POL-NOSFC-BFLIP model.in ${input} $s
 tofits model.in $s
 overview model.in $s
 mv fits/data${s}.fits data_Bflip.fits
