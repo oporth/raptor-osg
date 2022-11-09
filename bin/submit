@@ -26,7 +26,7 @@
 #
 # or run as a command directly `bin/submit`.
 
-+SingularityImage = "stash:///ospool/PROTECTED/oliver.porth/singularity/scirunner-v2p8.sif"
++SingularityImage = "stash:///ospool/PROTECTED/oliver.porth/singularity/scirunner-v2p9.sif"
 
 executable = bin/wrapper
 arguments  = $Fnx(input) $(md5) $(Rhigh) $(inc) $(Munit)
