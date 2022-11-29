@@ -21,7 +21,7 @@ type=$(pwd | rev | cut -d/ -f2 |rev)
 
 r=/$USER/BHAC_GRMHD/$type/$spin
 
-awk '{print $1","$2","$3}' "/protected${r}/Munit.tsv" | while read Rh_i_Munit;do
+awk '{print $1","$2","$3}' "/protected${r}/Munit_exp.tsv" | while read Rh_i_Munit;do
     for file in /protected/$r/output/data*.dat;do 
 
 	f=$(basename $file)
