@@ -64,6 +64,9 @@ cat <<EOF | tee model.in
 MBH             (Msun)  4.14e6
 DISTANCE                (kpc) 8.127
 M_UNIT          (g)     ${Munit}
+M_UNIT_SLOPE (-) 7483.
+M_UNIT_T (-) 1500.
+M_UNIT_DT (-) 10.
 R_LOW           (-)     1
 R_HIGH          (-)     ${Rhigh}
 INCLINATION     (deg)   ${inc}

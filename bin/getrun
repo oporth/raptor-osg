@@ -42,6 +42,9 @@ done
 
 #also transfer Munit.tsv
 rsync -avz --progress eht:${path_from}/../Munit.tsv ${path_to}/../.
+rsync -avz --progress eht:${path_from}/../Munit_exp.tsv ${path_to}/../.
+rsync -avz --progress eht:${path_from}/../model.in ${path_to}/../.
+
 
 #also transfer grid_mks.in
 rsync -avz --progress eht:${path_from}/../grid_mks.in ${path_to}/../.
