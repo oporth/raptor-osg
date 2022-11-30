@@ -64,7 +64,7 @@ cat <<EOF | tee model.in
 MBH             (Msun)  4.14e6
 DISTANCE                (kpc) 8.127
 M_UNIT          (g)     ${Munit}
-M_UNIT_SLOPE (-) 10661
+M_UNIT_SLOPE (-) 7483.
 M_UNIT_T (-) 1500.
 M_UNIT_DT (-) 10.
 R_LOW           (-)     1
@@ -95,14 +95,14 @@ cat model.in
 echo
 echo "Calling RAPTOR"
 
-RAPTOR-POL-NOSFC-M_UNIT_EXP model.in ${input} $s
+RAPTOR-POL-SFC-M_UNIT_EXP model.in ${input} $s
 tofits model.in $s
 overview model.in $s
 mv fits/data${s}.fits data.fits
 mv figures/img_${s}.png img.png
 mv output/spectrum_${s}_*.dat spectrum.dat
 
-RAPTOR-POL-NOSFC-BFLIP-M_UNIT_EXP model.in ${input} $s
+RAPTOR-POL-SFC-BFLIP-M_UNIT_EXP model.in ${input} $s
 tofits model.in $s
 overview model.in $s
 mv fits/data${s}.fits data_Bflip.fits
