@@ -35,9 +35,8 @@ fi
 
 done
 
-if [ ! -s MISSING ]; then
+if [ ! -f MISSING ]; then
     echo 'No missing files.  Lucky!'
-    rm MISSING
     exit 0
 fi
 
