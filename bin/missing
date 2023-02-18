@@ -17,6 +17,7 @@
 # permissions and limitations under the License.
 
 
+rm MISSING
 awk -F',' '{print $4","$5","$6}' "par/BATCH.ALL" | while read s_Rh_inc
 do
 
