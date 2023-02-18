@@ -19,22 +19,34 @@
 
 awk -F',' '{print $4","$5","$6}' "par/BATCH.ALL" | while read s_Rh_inc
 do
+
 s=`echo $s_Rh_inc | cut -d "," -f 1`
 Rh=`echo $s_Rh_inc | cut -d "," -f 2`
 inc=`echo $s_Rh_inc | cut -d "," -f 3`
 
-file=img_s$s_Rh$Rh_i$inc.fits
-file_Bflip=img_s$s_Rh$Rh_i$inc_Bflip.fits
+file=img_s${s}_Rh${Rh}_i${inc}.fits
+file_Bflip=img_s${s}_Rh${Rh}_i${inc}_Bflip.fits
 
-if [ -f fits/$file ]
+if [[ ! -f fits/$file || ! -f fits/$file_Bflip ]]
 then
-echo $file missing
+echo $file >> MISSING
 fi
-
-if [ -f fits/$file_Blfip ]
-then
-echo $file_Bflip missing
-fi
-
 
 done
+
+if [ ! -s MISSING ]; then
+    echo 'No missing files.  Lucky!'
+    rm MISSING
+    exit 0
+fi
+
+# Prepare rerun if needed
+id=$(ls par/ | tail -n1)
+id=$(expr 100 + $(expr ${id: -2} + 1))
+id=${id#?}
+
+sed 's|img_s\([0-9]*\)_Rh\([0-9]*\)_i\([0-9]*\).*|,\1,\2,\3,|g' MISSING |\
+while read l; do
+    grep $l par/BATCH.ALL
+done | tee par/BATCH.p${id}
+

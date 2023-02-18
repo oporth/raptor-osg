@@ -72,7 +72,7 @@ IMG_HEIGHT      (pixels)        400
 CAM_SIZE_X      (Rg)            40
 CAM_SIZE_Y      (Rg)            40
 FREQS_PER_DEC   (-)             1
-FREQ_MIN        (Hz)            230.e9
+FREQ_MIN        (Hz)            229.1e9
 STEPSIZE        (-)             0.01
 MAX_LEVEL       (-)             1
 EOF

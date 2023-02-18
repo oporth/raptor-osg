@@ -36,7 +36,7 @@ do
 echo '+++++++++++++++++'
 echo 'attempt '$i
 echo '+++++++++++++++++'
-rsync -avz --bwlimit=40000 --progress --files-from=bin/datfiles1500-3000-stride3.txt eht:${path_from} ${path_to}
+rsync -avz --bwlimit=40000 --progress --files-from=bin/datfiles1500-3000-stride1.txt eht:${path_from} ${path_to}
 sleep 10
 done
 
