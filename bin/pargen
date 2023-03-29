@@ -20,6 +20,9 @@ spin=$(pwd | rev | cut -d/ -f1 |rev)
 type=$(pwd | rev | cut -d/ -f2 |rev)
 
 r=/$USER/BHAC_GRMHD/$type/$spin
+w=/$USER/RAPTOR_GRRT/$type/$spin
+
+mkdir -p /protected/${w}/fits /protected/${w}/spectrum /protected/${w}/png
 
 awk '{print $1","$2","$3}' "/protected${r}/Munit.tsv" | while read Rh_i_Munit;do
     for file in /protected/$r/output/data*.dat;do 
@@ -27,7 +30,7 @@ awk '{print $1","$2","$3}' "/protected${r}/Munit.tsv" | while read Rh_i_Munit;do
 	f=$(basename $file)
         s=${f:4:-4}
         md5=$(awk '{if($1=="'${f}'") {print $2}}' "/protected${r}/md5.tsv")
-	echo stash:///ospool/PROTECTED${r}/output/${f},${md5},/protected${r}/grid_mks.in,${s},${Rh_i_Munit}
+	echo stash:///ospool/PROTECTED${r}/output/${f},${md5},/protected${r}/grid_mks.in,${s},${Rh_i_Munit},/protected${w}
 
     done
 done

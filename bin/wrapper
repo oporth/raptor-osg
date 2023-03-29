@@ -99,9 +99,9 @@ mv fits/data${s}.fits data.fits
 mv figures/img_${s}.png img.png
 mv output/spectrum_${s}_*.dat spectrum.dat
 
-RAPTOR-POL-SFC-BFLIP-NSPIN5 model.in ${input} $s
-tofits model.in $s
-overview model.in $s
-mv fits/data${s}.fits data_Bflip.fits
-mv figures/img_${s}.png img_Bflip.png
-mv output/spectrum_${s}_*.dat spectrum_Bflip.dat
+#RAPTOR-POL-SFC-BFLIP-NSPIN5 model.in ${input} $s
+#tofits model.in $s
+#overview model.in $s
+#mv fits/data${s}.fits data_Bflip.fits
+#mv figures/img_${s}.png img_Bflip.png
+#mv output/spectrum_${s}_*.dat spectrum_Bflip.dat
