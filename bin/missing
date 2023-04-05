@@ -16,6 +16,10 @@
 # implied.  See the License for the specific language governing
 # permissions and limitations under the License.
 
+spin=$(pwd | rev | cut -d/ -f1 |rev)
+type=$(pwd | rev | cut -d/ -f2 |rev)
+
+w=/protected/$USER/RAPTOR_GRRT/$type/$spin
 
 [ -f MISSING ] && rm MISSING
 awk -F',' '{print $4","$5","$6}' "par/BATCH.ALL" | while read s_Rh_inc
@@ -28,7 +32,8 @@ inc=`echo $s_Rh_inc | cut -d "," -f 3`
 file=img_s${s}_Rh${Rh}_i${inc}.fits
 file_Bflip=img_s${s}_Rh${Rh}_i${inc}_Bflip.fits
 
-if [[ ! -f fits/$file || ! -f fits/$file_Bflip ]]
+#if [[ ! -f fits/$file || ! -f fits/$file_Bflip ]]
+if [[ ! -f ${w}/fits/$file ]]
 then
 echo $file >> MISSING
 fi
