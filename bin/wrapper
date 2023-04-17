@@ -92,7 +92,7 @@ cat model.in
 echo
 echo "Calling RAPTOR"
 
-RAPTOR-POL-SFC-NSPIN5 model.in ${input} $s
+RAPTOR-POL-NOSFC model.in ${input} $s
 tofits model.in $s
 overview model.in $s
 mv fits/data${s}.fits data.fits
