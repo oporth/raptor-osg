@@ -26,13 +26,14 @@
 #
 # or run as a command directly `bin/submit`.
 
-+SingularityImage = "stash:///ospool/PROTECTED/oliver.porth/singularity/scirunner-v2p10.sif"
++SingularityImage = "stash:///ospool/PROTECTED/oliver.porth/singularity/scirunner-v2p15.sif"
 
 executable = bin/wrapper
 arguments  = $Fnx(input) $(md5) $(Rhigh) $(inc) $(Munit)
 
 transfer_input_files   = $(input),$(grid)
 transfer_output_remaps = "data.fits=$(outfolder)/fits/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).fits; data_Bflip.fits=$(outfolder)/fits/img_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.fits; img.png=$(outfolder)/png/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).png; img_Bflip.png=$(outfolder)/png/img_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.png; spectrum.dat=$(outfolder)/spectrum/spectrum_s$(snapshot)_Rh$(Rhigh)_i$(inc).dat; spectrum_Bflip.dat=$(outfolder)/spectrum/spectrum_s$(snapshot)_Rh$(Rhigh)_i$(inc)_Bflip.dat"
+#transfer_output_remaps = "data.fits=$(outfolder)/fits/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).fits; img.png=$(outfolder)/png/img_s$(snapshot)_Rh$(Rhigh)_i$(inc).png; spectrum.dat=$(outfolder)/spectrum/spectrum_s$(snapshot)_Rh$(Rhigh)_i$(inc).dat"
 ShouldTransferFiles = Yes
 WhenToTransferOutput = ON_EXIT
 

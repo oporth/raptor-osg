@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+#
+# Copyright 2022 Oliver Porth
+# Copyright 2022 University of Amsterdam
+# Based on ipole-osg by Chi-kwan Chan
+#
+# Licensed under the Apache License, Version 2.0 (the "License"); you
+# may not use this file except in compliance with the License.  You
+# may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.  See the License for the specific language governing
+# permissions and limitations under the License.
+
+spin=$(pwd | rev | cut -d/ -f1 |rev)
+type=$(pwd | rev | cut -d/ -f2 |rev)
+
+w=/protected/$USER/RAPTOR_GRRT/$type/$spin
+
+# Prepare rerun if needed
+id=$(ls par/ | tail -n1)
+id=$(expr 100 + $(expr ${id: -2} + 1))
+id=${id#?}
+
+sed 's|img_s\([0-9]*\)_Rh\([0-9]*\)_i\([0-9]*\).*|,\1,\2,\3,|g' REDO |\
+while read l; do
+    grep $l par/BATCH.ALL
+done | tee par/BATCH.p${id} >/dev/null
+
