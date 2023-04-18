@@ -26,13 +26,13 @@ type=$(pwd | rev | cut -d/ -f2 |rev)
 w=/protected/${USER}/RAPTOR_GRRT/$type/$spin
 
 # list of fits files to copy out
-for i in $(eval echo "{${ibeg}..${iend}..${stride}}");do basename -a `ls ${w}/fits/img_s${i}_*`;done>bin/fitsout.txt
+#for i in $(eval echo "{${ibeg}..${iend}..${stride}}");do basename -a `ls ${w}/fits/img_s${i}_*`;done>bin/fitsout.txt
 rsync -avz --progress --files-from=bin/fitsout.txt ${w}/fits/ eht:/bd4/eht/SgrA_Polarimetry_Raytracing/BHAC_RAPTOR/$type/$spin/fits
 
-for i in $(eval echo "{${ibeg}..${iend}..${stride}}");do basename -a `ls ${w}/png/img_s${i}_*`;done>bin/pngout.txt
+#for i in $(eval echo "{${ibeg}..${iend}..${stride}}");do basename -a `ls ${w}/png/img_s${i}_*`;done>bin/pngout.txt
 rsync -avz --progress --files-from=bin/pngout.txt ${w}/png/ eht:/bd4/eht/SgrA_Polarimetry_Raytracing/BHAC_RAPTOR/$type/$spin/png
 
-for i in $(eval echo "{${ibeg}..${iend}..${stride}}");do basename -a `ls ${w}/spectrum/spectrum_s${i}_*`;done>bin/spectrumout.txt
+#for i in $(eval echo "{${ibeg}..${iend}..${stride}}");do basename -a `ls ${w}/spectrum/spectrum_s${i}_*`;done>bin/spectrumout.txt
 rsync -avz --progress --files-from=bin/spectrumout.txt ${w}/spectrum/ eht:/bd4/eht/SgrA_Polarimetry_Raytracing/BHAC_RAPTOR/$type/$spin/spectrum
 
 echo Done putting data into BHAC_RAPTOR/$type/$spin/ on eht server.
